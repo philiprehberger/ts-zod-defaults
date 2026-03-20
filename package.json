@@ -1,6 +1,6 @@
 {
   "name": "@philiprehberger/zod-defaults",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Auto-generate default values from Zod schemas",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -26,7 +26,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --test",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "zod",
@@ -37,7 +38,7 @@
     "initial-values",
     "seed"
   ],
-  "author": "philiprehberger",
+  "author": "Philip Rehberger",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -48,7 +49,7 @@
     "url": "https://github.com/philiprehberger/ts-zod-defaults/issues"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.0.0"
   },
   "peerDependencies": {
     "zod": "^3.22.0"
