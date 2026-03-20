@@ -1,0 +1,62 @@
+{
+  "name": "@philiprehberger/zod-defaults",
+  "version": "0.1.0",
+  "description": "Auto-generate default values from Zod schemas",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test"
+  },
+  "keywords": [
+    "zod",
+    "defaults",
+    "mock",
+    "form",
+    "schema",
+    "initial-values",
+    "seed"
+  ],
+  "author": "philiprehberger",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/philiprehberger/ts-zod-defaults.git"
+  },
+  "homepage": "https://github.com/philiprehberger/ts-zod-defaults#readme",
+  "bugs": {
+    "url": "https://github.com/philiprehberger/ts-zod-defaults/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "zod": "^3.22.0"
+  }
+}
