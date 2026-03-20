@@ -1,11 +1,11 @@
 # @philiprehberger/zod-defaults
 
-[![CI](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/publish.yml)
+[![CI](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@philiprehberger/zod-defaults)](https://www.npmjs.com/package/@philiprehberger/zod-defaults)
 
-Auto-generate default values, empty form states, and mock data from Zod schemas.
+Auto-generate default values, empty form states, and mock data from Zod schemas
 
-## Install
+## Installation
 
 ```bash
 npm install @philiprehberger/zod-defaults
