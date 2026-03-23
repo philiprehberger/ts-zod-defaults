@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Standardize README badges
+
 ## 0.1.3
 
 - Standardize README badges and CHANGELOG formatting
