@@ -1,8 +1,8 @@
 # @philiprehberger/zod-defaults
 
-[![CI](https://github.com/philiprehberger/zod-defaults/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/zod-defaults/actions/workflows/ci.yml)
+[![CI](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/ts-zod-defaults/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@philiprehberger/zod-defaults.svg)](https://www.npmjs.com/package/@philiprehberger/zod-defaults)
-[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/zod-defaults)](https://github.com/philiprehberger/zod-defaults/commits/main)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/ts-zod-defaults)](https://github.com/philiprehberger/ts-zod-defaults/commits/main)
 
 Auto-generate default values, empty form states, and mock data from Zod schemas
 
@@ -71,11 +71,11 @@ npm test
 
 If you find this project useful:
 
-⭐ [Star the repo](https://github.com/philiprehberger/zod-defaults)
+⭐ [Star the repo](https://github.com/philiprehberger/ts-zod-defaults)
 
-🐛 [Report issues](https://github.com/philiprehberger/zod-defaults/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+🐛 [Report issues](https://github.com/philiprehberger/ts-zod-defaults/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
 
-💡 [Suggest features](https://github.com/philiprehberger/zod-defaults/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+💡 [Suggest features](https://github.com/philiprehberger/ts-zod-defaults/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 
 ❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
 
