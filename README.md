@@ -44,6 +44,18 @@ mock(UserSchema, { seed: 42 });
 // → same output every time
 ```
 
+### Generating Multiple Mocks
+
+```ts
+import { z } from 'zod';
+import { mockMany } from '@philiprehberger/zod-defaults';
+
+const UserSchema = z.object({ name: z.string(), age: z.number() });
+
+mockMany(UserSchema, 5);                  // → array of 5 random users
+mockMany(UserSchema, 5, { seed: 42 });    // → deterministic 5 users for snapshot tests
+```
+
 ## API
 
 | Function | Description |
@@ -51,6 +63,7 @@ mock(UserSchema, { seed: 42 });
 | `defaults(schema)` | Returns a value with safe defaults for every field (`""`, `0`, `false`, `[]`, etc.) |
 | `emptyForm(schema)` | Like `defaults` but numbers return `undefined` for blank form inputs |
 | `mock(schema, options?)` | Generates realistic fake data; pass `{ seed }` for deterministic output |
+| `mockMany(schema, count, options?)` | Generate an array of `count` mocks; honors `{ seed }` for deterministic output |
 
 ### MockOptions
 

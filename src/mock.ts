@@ -123,3 +123,19 @@ export function mock(schema: ZodType, options?: MockOptions): any {
   const random = options?.seed !== undefined ? createPrng(options.seed) : Math.random;
   return generateMock(schema, random);
 }
+
+export function mockMany<T extends ZodType>(
+  schema: T,
+  count: number,
+  options?: MockOptions,
+): any[] {
+  if (!Number.isInteger(count) || count < 0) {
+    throw new RangeError('mockMany(): count must be a non-negative integer');
+  }
+  const random = options?.seed !== undefined ? createPrng(options.seed) : Math.random;
+  const items: any[] = [];
+  for (let i = 0; i < count; i += 1) {
+    items.push(generateMock(schema as ZodType, random));
+  }
+  return items;
+}

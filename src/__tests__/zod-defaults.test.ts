@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { z } from 'zod';
-import { defaults, emptyForm, mock } from '../../dist/index.js';
+import { defaults, emptyForm, mock, mockMany } from '../../dist/index.js';
 
 describe('defaults', () => {
   it('should return "" for string', () => {
@@ -176,5 +176,33 @@ describe('mock', () => {
     assert.strictEqual(typeof result.name, 'string');
     assert.strictEqual(typeof result.age, 'number');
     assert.strictEqual(typeof result.active, 'boolean');
+  });
+});
+
+describe('mockMany', () => {
+  it('returns an array of the requested length', () => {
+    const items = mockMany(z.object({ name: z.string() }), 5);
+    assert.strictEqual(items.length, 5);
+    for (const item of items) {
+      assert.strictEqual(typeof item.name, 'string');
+    }
+  });
+
+  it('returns an empty array when count is 0', () => {
+    assert.deepStrictEqual(mockMany(z.string(), 0), []);
+  });
+
+  it('produces deterministic output with a seed', () => {
+    const a = mockMany(z.object({ n: z.number() }), 3, { seed: 42 });
+    const b = mockMany(z.object({ n: z.number() }), 3, { seed: 42 });
+    assert.deepStrictEqual(a, b);
+  });
+
+  it('throws on negative count', () => {
+    assert.throws(() => mockMany(z.string(), -1), /non-negative integer/);
+  });
+
+  it('throws on non-integer count', () => {
+    assert.throws(() => mockMany(z.string(), 1.5), /non-negative integer/);
   });
 });

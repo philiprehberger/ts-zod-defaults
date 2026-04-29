@@ -1,7 +1,7 @@
 {
   "name": "@philiprehberger/zod-defaults",
-  "version": "0.1.6",
-  "description": "Auto-generate default values from Zod schemas",
+  "version": "0.2.0",
+  "description": "Auto-generate default values, empty form states, and mock data from Zod schemas",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

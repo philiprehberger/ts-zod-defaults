@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+- Add `mockMany(schema, count, options?)` for generating arrays of mocks (deterministic when `seed` is provided)
+- Sync `package.json` `description` with the README one-liner (`"Auto-generate default values, empty form states, and mock data from Zod schemas"`)
+
 ## 0.1.6
 
 - Fix README GitHub URLs to use correct repo name (ts-zod-defaults)
