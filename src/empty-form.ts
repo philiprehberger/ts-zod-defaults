@@ -1,21 +1,21 @@
-import { type ZodType, ZodFirstPartyTypeKind } from 'zod';
+import type { ZodType } from 'zod';
 import { defaults } from './defaults.js';
 
 export function emptyForm(schema: ZodType): any {
   const def = (schema as any)._def;
-  const typeName: ZodFirstPartyTypeKind = def.typeName;
+  const typeName: string = def.typeName;
 
   switch (typeName) {
-    case ZodFirstPartyTypeKind.ZodString:
+    case 'ZodString':
       return '';
 
-    case ZodFirstPartyTypeKind.ZodNumber:
+    case 'ZodNumber':
       return undefined;
 
-    case ZodFirstPartyTypeKind.ZodBoolean:
+    case 'ZodBoolean':
       return false;
 
-    case ZodFirstPartyTypeKind.ZodObject: {
+    case 'ZodObject': {
       const shape = def.shape();
       const result: Record<string, any> = {};
       for (const key of Object.keys(shape)) {

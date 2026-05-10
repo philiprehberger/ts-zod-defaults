@@ -1,23 +1,23 @@
-import { type ZodType, ZodFirstPartyTypeKind } from 'zod';
+import type { ZodType } from 'zod';
 
 export function defaults(schema: ZodType): any {
   const def = (schema as any)._def;
-  const typeName: ZodFirstPartyTypeKind = def.typeName;
+  const typeName: string = def.typeName;
 
   switch (typeName) {
-    case ZodFirstPartyTypeKind.ZodString:
+    case 'ZodString':
       return '';
 
-    case ZodFirstPartyTypeKind.ZodNumber:
+    case 'ZodNumber':
       return 0;
 
-    case ZodFirstPartyTypeKind.ZodBoolean:
+    case 'ZodBoolean':
       return false;
 
-    case ZodFirstPartyTypeKind.ZodArray:
+    case 'ZodArray':
       return [];
 
-    case ZodFirstPartyTypeKind.ZodObject: {
+    case 'ZodObject': {
       const shape = def.shape();
       const result: Record<string, any> = {};
       for (const key of Object.keys(shape)) {
@@ -26,43 +26,43 @@ export function defaults(schema: ZodType): any {
       return result;
     }
 
-    case ZodFirstPartyTypeKind.ZodOptional:
+    case 'ZodOptional':
       return undefined;
 
-    case ZodFirstPartyTypeKind.ZodNullable:
+    case 'ZodNullable':
       return null;
 
-    case ZodFirstPartyTypeKind.ZodDefault:
+    case 'ZodDefault':
       return def.defaultValue();
 
-    case ZodFirstPartyTypeKind.ZodEnum:
+    case 'ZodEnum':
       return def.values[0];
 
-    case ZodFirstPartyTypeKind.ZodLiteral:
+    case 'ZodLiteral':
       return def.value;
 
-    case ZodFirstPartyTypeKind.ZodUnion:
+    case 'ZodUnion':
       return defaults(def.options[0] as ZodType);
 
-    case ZodFirstPartyTypeKind.ZodDiscriminatedUnion:
+    case 'ZodDiscriminatedUnion':
       return defaults(def.options[0] as ZodType);
 
-    case ZodFirstPartyTypeKind.ZodRecord:
+    case 'ZodRecord':
       return {};
 
-    case ZodFirstPartyTypeKind.ZodMap:
+    case 'ZodMap':
       return new Map();
 
-    case ZodFirstPartyTypeKind.ZodSet:
+    case 'ZodSet':
       return new Set();
 
-    case ZodFirstPartyTypeKind.ZodTuple:
+    case 'ZodTuple':
       return (def.items as ZodType[]).map((item) => defaults(item));
 
-    case ZodFirstPartyTypeKind.ZodEffects:
+    case 'ZodEffects':
       return defaults(def.schema as ZodType);
 
-    case ZodFirstPartyTypeKind.ZodPipeline:
+    case 'ZodPipeline':
       return defaults(def.in as ZodType);
 
     default:
