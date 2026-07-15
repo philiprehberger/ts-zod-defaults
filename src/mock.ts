@@ -1,5 +1,6 @@
 import type { ZodType } from 'zod';
 import { createPrng } from './prng.js';
+import { getDef, hasEmailCheck } from './internals.js';
 import type { MockOptions } from './types.js';
 
 const firstNames = [
@@ -23,17 +24,11 @@ function randomString(random: () => number, length: number): string {
   return result;
 }
 
-function hasEmailCheck(def: any): boolean {
-  if (!def.checks || !Array.isArray(def.checks)) return false;
-  return def.checks.some((check: any) => check.kind === 'email');
-}
-
 function generateMock(schema: ZodType, random: () => number): any {
-  const def = (schema as any)._def;
-  const typeName: string = def.typeName;
+  const def = getDef(schema);
 
-  switch (typeName) {
-    case 'ZodString': {
+  switch (def.type) {
+    case 'string': {
       if (hasEmailCheck(def)) {
         const first = firstNames[Math.floor(random() * firstNames.length)]!.toLowerCase();
         const last = lastNames[Math.floor(random() * lastNames.length)]!.toLowerCase();
@@ -43,23 +38,23 @@ function generateMock(schema: ZodType, random: () => number): any {
       return randomString(random, 8);
     }
 
-    case 'ZodNumber':
+    case 'number':
       return Math.floor(random() * 100) + 1;
 
-    case 'ZodBoolean':
+    case 'boolean':
       return random() >= 0.5;
 
-    case 'ZodArray': {
+    case 'array': {
       const count = Math.floor(random() * 3) + 1;
       const items: any[] = [];
       for (let i = 0; i < count; i++) {
-        items.push(generateMock(def.type as ZodType, random));
+        items.push(generateMock(def.element as ZodType, random));
       }
       return items;
     }
 
-    case 'ZodObject': {
-      const shape = def.shape();
+    case 'object': {
+      const shape = def.shape as Record<string, ZodType>;
       const result: Record<string, any> = {};
       for (const key of Object.keys(shape)) {
         result[key] = generateMock(shape[key] as ZodType, random);
@@ -67,51 +62,44 @@ function generateMock(schema: ZodType, random: () => number): any {
       return result;
     }
 
-    case 'ZodEnum': {
-      const values = def.values as string[];
+    case 'enum': {
+      const values = Object.values(def.entries as Record<string, string>);
       return values[Math.floor(random() * values.length)];
     }
 
-    case 'ZodOptional':
+    case 'optional':
       return random() < 0.8 ? generateMock(def.innerType as ZodType, random) : undefined;
 
-    case 'ZodNullable':
+    case 'nullable':
       return random() < 0.9 ? generateMock(def.innerType as ZodType, random) : null;
 
-    case 'ZodDefault':
+    case 'default':
       return generateMock(def.innerType as ZodType, random);
 
-    case 'ZodLiteral':
-      return def.value;
+    case 'literal': {
+      const values = def.values as unknown[];
+      return values[Math.floor(random() * values.length)];
+    }
 
-    case 'ZodUnion':
+    case 'union':
       return generateMock(
         def.options[Math.floor(random() * def.options.length)] as ZodType,
         random,
       );
 
-    case 'ZodDiscriminatedUnion':
-      return generateMock(
-        def.options[Math.floor(random() * def.options.length)] as ZodType,
-        random,
-      );
-
-    case 'ZodRecord':
+    case 'record':
       return {};
 
-    case 'ZodMap':
+    case 'map':
       return new Map();
 
-    case 'ZodSet':
+    case 'set':
       return new Set();
 
-    case 'ZodTuple':
+    case 'tuple':
       return (def.items as ZodType[]).map((item) => generateMock(item, random));
 
-    case 'ZodEffects':
-      return generateMock(def.schema as ZodType, random);
-
-    case 'ZodPipeline':
+    case 'pipe':
       return generateMock(def.in as ZodType, random);
 
     default:

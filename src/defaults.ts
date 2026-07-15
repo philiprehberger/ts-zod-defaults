@@ -1,24 +1,24 @@
 import type { ZodType } from 'zod';
+import { getDef } from './internals.js';
 
 export function defaults(schema: ZodType): any {
-  const def = (schema as any)._def;
-  const typeName: string = def.typeName;
+  const def = getDef(schema);
 
-  switch (typeName) {
-    case 'ZodString':
+  switch (def.type) {
+    case 'string':
       return '';
 
-    case 'ZodNumber':
+    case 'number':
       return 0;
 
-    case 'ZodBoolean':
+    case 'boolean':
       return false;
 
-    case 'ZodArray':
+    case 'array':
       return [];
 
-    case 'ZodObject': {
-      const shape = def.shape();
+    case 'object': {
+      const shape = def.shape as Record<string, ZodType>;
       const result: Record<string, any> = {};
       for (const key of Object.keys(shape)) {
         result[key] = defaults(shape[key] as ZodType);
@@ -26,43 +26,41 @@ export function defaults(schema: ZodType): any {
       return result;
     }
 
-    case 'ZodOptional':
+    case 'optional':
       return undefined;
 
-    case 'ZodNullable':
+    case 'nullable':
       return null;
 
-    case 'ZodDefault':
-      return def.defaultValue();
+    case 'default': {
+      const value = def.defaultValue;
+      return typeof value === 'function' ? value() : value;
+    }
 
-    case 'ZodEnum':
-      return def.values[0];
+    case 'enum': {
+      const values = Object.values(def.entries as Record<string, string>);
+      return values[0];
+    }
 
-    case 'ZodLiteral':
-      return def.value;
+    case 'literal':
+      return (def.values as unknown[])[0];
 
-    case 'ZodUnion':
+    case 'union':
       return defaults(def.options[0] as ZodType);
 
-    case 'ZodDiscriminatedUnion':
-      return defaults(def.options[0] as ZodType);
-
-    case 'ZodRecord':
+    case 'record':
       return {};
 
-    case 'ZodMap':
+    case 'map':
       return new Map();
 
-    case 'ZodSet':
+    case 'set':
       return new Set();
 
-    case 'ZodTuple':
+    case 'tuple':
       return (def.items as ZodType[]).map((item) => defaults(item));
 
-    case 'ZodEffects':
-      return defaults(def.schema as ZodType);
-
-    case 'ZodPipeline':
+    case 'pipe':
       return defaults(def.in as ZodType);
 
     default:

@@ -1,22 +1,22 @@
 import type { ZodType } from 'zod';
 import { defaults } from './defaults.js';
+import { getDef } from './internals.js';
 
 export function emptyForm(schema: ZodType): any {
-  const def = (schema as any)._def;
-  const typeName: string = def.typeName;
+  const def = getDef(schema);
 
-  switch (typeName) {
-    case 'ZodString':
+  switch (def.type) {
+    case 'string':
       return '';
 
-    case 'ZodNumber':
+    case 'number':
       return undefined;
 
-    case 'ZodBoolean':
+    case 'boolean':
       return false;
 
-    case 'ZodObject': {
-      const shape = def.shape();
+    case 'object': {
+      const shape = def.shape as Record<string, ZodType>;
       const result: Record<string, any> = {};
       for (const key of Object.keys(shape)) {
         result[key] = emptyForm(shape[key] as ZodType);
